@@ -10,6 +10,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'password')
 
 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(required=True)
+
+
 class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

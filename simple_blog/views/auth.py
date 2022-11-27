@@ -2,10 +2,11 @@
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import  Response
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from simple_blog.utils.token import get_tokens_for_user
-from simple_blog.serializers.auth import RegistrationSerializer, PasswordChangeSerializer
+from simple_blog.serializers.auth import RegistrationSerializer, LoginSerializer, PasswordChangeSerializer
+
 
 class RegistrationView(APIView):
     permission_classes = (AllowAny,)
@@ -17,13 +18,16 @@ class RegistrationView(APIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
 class LoginView(APIView):
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer
+
     def post(self, request):
-        if 'email' not in request.data or 'password' not in request.data:
-            return Response({'msg': 'Credentials missing'}, status=status.HTTP_400_BAD_REQUEST)
-        email = request.data['email']
-        password = request.data['password']
-        user = authenticate(request, email=email, password=password)
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = authenticate(
+            request, email=serializer.data['email'], password=serializer.data['password'])
         if user is not None:
             login(request, user)
             auth_data = get_tokens_for_user(request.user)
