@@ -4,6 +4,7 @@ from rest_framework_simplejwt import views as jwt_views
 from .views.posts import PostsView, PostView
 from .views.hashtags import HashTagsView, HashTagView
 from .views.auth import RegistrationView, LoginView, LogoutView, ChangePasswordView
+from .views.feed import MyPostsView
 
 urlpatterns = [
     # auth
@@ -24,4 +25,7 @@ urlpatterns = [
     # posts
     path('posts/<int:id>', PostView.as_view()),
     path('posts', PostsView.as_view()),
+
+    # Feed
+    path('feed/my-posts', MyPostsView.as_view()),
 ]
