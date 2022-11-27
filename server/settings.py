@@ -132,3 +132,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     'http://localhost:8081',
 # )
 CORS_ORIGIN_ALLOW_ALL = True
+
+AUTH_USER_MODEL = 'simple_blog.User'
