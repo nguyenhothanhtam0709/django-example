@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from simple_blog.serializers.posts import CreatePostSerializer, PostSerializer
+from simple_blog.serializers.posts import CreatePostSerializer, PostSerializer, RetrievePostSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from simple_blog.models import Post
@@ -11,14 +11,18 @@ class PostsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = CreatePostSerializer(data=request.data)
+        serializer_context = {
+            'user': request.user
+        }
+        serializer = CreatePostSerializer(
+            data=request.data, context=serializer_context)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def get(self, request):
         posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
+        serializer = RetrievePostSerializer(posts, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -29,7 +33,7 @@ class PostView(APIView):
     def get(self, request, id):
         try:
             post = Post.objects.get(pk=id)
-            serializer = self.serializer_class(post)
+            serializer = RetrievePostSerializer(post)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Post.DoesNotExist:
             raise NotFound('Post does not exist.')
