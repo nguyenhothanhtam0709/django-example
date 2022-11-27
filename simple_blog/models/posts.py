@@ -8,6 +8,8 @@ class Post(models.Model):
     content = models.TextField(blank=True)
     user = models.ForeignKey(
         'simple_blog.User', on_delete=models.CASCADE, related_name='posts', blank=True, null=True)
+    hashtags = models.ManyToManyField(
+        'simple_blog.HashTag', related_name='posts')
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
