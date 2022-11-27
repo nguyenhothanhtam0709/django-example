@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from simple_blog.utils.token import get_tokens_for_user
 from simple_blog.serializers.auth import RegistrationSerializer, LoginSerializer, PasswordChangeSerializer
+from django.core.cache import cache
 
 
 class RegistrationView(APIView):
@@ -31,6 +32,7 @@ class LoginView(APIView):
         if user is not None:
             login(request, user)
             auth_data = get_tokens_for_user(request.user)
+            cache.set('my_key', 'hello, world!', 30)
             return Response({'msg': 'Login Success', **auth_data}, status=status.HTTP_200_OK)
         return Response({'msg': 'Invalid Credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -38,6 +40,7 @@ class LoginView(APIView):
 class LogoutView(APIView):
     def post(self, request):
         logout(request)
+        print(cache.get('my_key'))
         return Response({'msg': 'Successfully Logged out'}, status=status.HTTP_200_OK)
 
 

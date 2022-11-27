@@ -4,3 +4,4 @@ autopep8==2.0.0
 django-cors-headers==3.13.0
 pyjwt==2.6.0
 djangorestframework-simplejwt==5.2.2
+django-redis==5.2.0
