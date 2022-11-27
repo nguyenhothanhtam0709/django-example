@@ -19,13 +19,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
                 'write_only': True
             }
         }
-
-    def save(self):
-        user = User(email=self.validated_data['email'])
-        password = self.validated_data['password']
-        user.set_password(password)
-        user.save()
-        return user
+    
+    def create(self, validated_data):
+        # Use the `create_user` method we wrote earlier to create a new user.
+        return User.objects.create_user(**validated_data)
 
 
 class PasswordChangeSerializer(serializers.Serializer):

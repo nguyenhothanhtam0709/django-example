@@ -1,19 +1,21 @@
 
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import  Response
 from rest_framework.views import APIView
 from simple_blog.utils.token import get_tokens_for_user
 from simple_blog.serializers.auth import RegistrationSerializer, PasswordChangeSerializer
 
 class RegistrationView(APIView):
+    permission_classes = (AllowAny,)
+    serializer_class = RegistrationSerializer
+
     def post(self, request):
-        serializer = RegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class LoginView(APIView):
     def post(self, request):
