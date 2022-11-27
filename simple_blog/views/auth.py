@@ -43,11 +43,11 @@ class LogoutView(APIView):
 
 class ChangePasswordView(APIView):
     permission_classes = [IsAuthenticated, ]
+    serializer_class = PasswordChangeSerializer
 
     def post(self, request):
-        serializer = PasswordChangeSerializer(
+        serializer = self.serializer_class(
             context={'request': request}, data=request.data)
-        # Another way to write is as in Line 17
         serializer.is_valid(raise_exception=True)
         request.user.set_password(serializer.validated_data['new_password'])
         request.user.save()
