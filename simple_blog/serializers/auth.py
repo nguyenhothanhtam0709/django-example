@@ -18,6 +18,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
                 'write_only': True
             }
         }
+    
+    def save(self):
+        user = User(email=self.validated_data['email'])
+        password = self.validated_data['password']
+        user.set_password(password)
+        user.save()
+        return user
 
 
 class PasswordChangeSerializer(serializers.Serializer):
