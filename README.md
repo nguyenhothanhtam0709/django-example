@@ -10,12 +10,15 @@ python3 -m venv env
 source env/bin/activate  # On Windows use `env\Scripts\activate`
 
 # Install dependency
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 # create super-admins
-python manage.py createsuperuser
+python3 manage.py createsuperuser
 
 #
-python manage.py migrate
-python manage.py runserver
+python3 manage.py migrate
+python3 manage.py runserver
+
+# Run withn Daphne
+daphne server.asgi:application
 ```
