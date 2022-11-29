@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-rr^i4p9fi1tqf3*1shue6!77h1bxcxfl*kx$@h)+bl82s(8d5k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne', # need to run Django Channels
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,7 +76,7 @@ TEMPLATES = [
 ]
 
 # WSGI_APPLICATION = 'server.wsgi.application'
-ASGI_APPLICATION = "server.routing.application"
+ASGI_APPLICATION = "server.asgi.application"
 
 
 # Database
