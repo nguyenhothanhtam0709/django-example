@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from simple_blog import urls as blog_urls
-import server_sent_events.routing
 
 urlpatterns = [
     path('admin/', admin.site.urls),
