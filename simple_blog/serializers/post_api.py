@@ -5,3 +5,8 @@ class WebsocketPostAPISerializer(serializers.Serializer):
     type = serializers.CharField(required=True)
     message = serializers.CharField(required=True)
     username = serializers.CharField(required=True)
+
+class SsePostAPISerializer(serializers.Serializer):
+    channel_name = serializers.CharField(required=True)
+    message = serializers.CharField(required=True)
+    username = serializers.CharField(required=True)
