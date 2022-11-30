@@ -11,8 +11,10 @@ class SimpleServerSentEventsConsumer(AsyncHttpConsumer):
             (b"Content-Type", b"text/event-stream"),
             # (b"Transfer-Encoding", b"keep-alive"),
             (b"Connection", b"chunked"),
+            (b"Access-Control-Allow-Origin", b"*"),
         ])
-        await self.send_body(f"start event stream for channel: {self.channel_name}", more_body=True)
+        payload = f"data: start event stream for channel: {self.channel_name}\n\n"
+        await self.send_body(payload.encode('utf-8'), more_body=True)
 
     async def chat_message(self, event):
         await self.send_headers(headers=[
@@ -20,7 +22,6 @@ class SimpleServerSentEventsConsumer(AsyncHttpConsumer):
             (b"Content-Type", b"text/event-stream"),
             # (b"Transfer-Encoding", b"keep-alive"),
             (b"Connection", b"chunked"),
+            (b"Access-Control-Allow-Origin", b"*")
         ])
-        print(f'send to client {self.channel_name}')
         await self.send_body(json.dumps(event).encode("utf-8"), more_body=True)
-        
