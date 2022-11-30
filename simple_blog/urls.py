@@ -5,7 +5,7 @@ from .views.posts import PostsView, PostView
 from .views.hashtags import HashTagsView, HashTagView
 from .views.auth import RegistrationView, LoginView, LogoutView, ChangePasswordView
 from .views.feed import MyPostsView
-from .views.post_api import WebsocketPost
+from .views.post_api import WebsocketPost, SsePost
 
 urlpatterns = [
     # auth
@@ -31,5 +31,6 @@ urlpatterns = [
     path('feed/my-posts', MyPostsView.as_view()),
 
     # post api for testing
-    path('post-api/websocket', WebsocketPost.as_view())
+    path('post-api/websocket', WebsocketPost.as_view()),
+    path('post-api/sse', SsePost.as_view())
 ]
